@@ -103,7 +103,7 @@ Ref<Script> PyScriptLanguage::get_template(const String& p_class_name, const Str
     "\n"+
     "\n";
 
-    _template = _template.replace("%BASE%",p_base_class_name);
+    _template = _template.replace("%BASE%", p_base_class_name);
 
     // Ref<PyScript> script;
     // script.instance();

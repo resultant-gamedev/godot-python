@@ -28,7 +28,7 @@ void PyScriptLanguage::_add_global(const StringName& p_name,const Variant& p_val
 
 
     if (globals.has(p_name)) {
-        //overwrite existing
+        // overwrite existing
         global_array[globals[p_name]] = p_value;
         return;
     }

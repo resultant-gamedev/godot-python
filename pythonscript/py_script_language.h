@@ -12,9 +12,9 @@ public:
 
     Variant* _global_array;
     Vector<Variant> global_array;
-    Map<StringName,int> globals;
+    Map<StringName, int> globals;
 
-    void _add_global(const StringName& p_name,const Variant& p_value);
+    void _add_global(const StringName& p_name, const Variant& p_value);
 
     Mutex *lock;
 
@@ -32,14 +32,14 @@ public:
     void get_comment_delimiters(List<String> *p_delimiters) const;
     void get_string_delimiters(List<String> *p_delimiters) const;
     Ref<Script> get_template(const String& p_class_name, const String& p_base_class_name) const;
-    bool validate(const String& p_script, int &r_line_error,int &r_col_error,String& r_test_error, const String& p_path="",List<String> *r_functions=NULL) const;
+    bool validate(const String& p_script, int &r_line_error, int &r_col_error, String& r_test_error, const String& p_path="", List<String> *r_functions=NULL) const;
     Script *create_script() const;
     bool has_named_classes() const;
-    int find_function(const String& p_function,const String& p_code) const;
-    String make_function(const String& p_class,const String& p_name,const StringArray& p_args) const;
+    int find_function(const String& p_function, const String& p_code) const;
+    String make_function(const String& p_class, const String& p_name, const StringArray& p_args) const;
     // Error complete_code(const String& p_code, const String& p_base_path, Object*p_owner,List<String>* r_options,String& r_call_hint) { return ERR_UNAVAILABLE; }
-    void auto_indent_code(String& p_code,int p_from_line,int p_to_line) const;
-    void add_global_constant(const StringName& p_variable,const Variant& p_value);
+    void auto_indent_code(String& p_code, int p_from_line, int p_to_line) const;
+    void add_global_constant(const StringName& p_variable, const Variant& p_value);
 
     /* MULTITHREAD FUNCTIONS */
 
@@ -54,15 +54,15 @@ public:
     int debug_get_stack_level_line(int p_level) const;
     String debug_get_stack_level_function(int p_level) const;
     String debug_get_stack_level_source(int p_level) const;
-    void debug_get_stack_level_locals(int p_level,List<String> *p_locals, List<Variant> *p_values, int p_max_subitems=-1,int p_max_depth=-1);
-    void debug_get_stack_level_members(int p_level,List<String> *p_members, List<Variant> *p_values, int p_max_subitems=-1,int p_max_depth=-1);
+    void debug_get_stack_level_locals(int p_level, List<String> *p_locals, List<Variant> *p_values, int p_max_subitems=-1,int p_max_depth=-1);
+    void debug_get_stack_level_members(int p_level, List<String> *p_members, List<Variant> *p_values, int p_max_subitems=-1,int p_max_depth=-1);
     void debug_get_globals(List<String> *p_locals, List<Variant> *p_values, int p_max_subitems=-1,int p_max_depth=-1);
-    String debug_parse_stack_level_expression(int p_level,const String& p_expression,int p_max_subitems=-1,int p_max_depth=-1);
+    String debug_parse_stack_level_expression(int p_level, const String& p_expression, int p_max_subitems=-1,int p_max_depth=-1);
 
     // virtual Vector<StackInfo> debug_get_current_stack_info() { return Vector<StackInfo>(); }
 
     void reload_all_scripts();
-    void reload_tool_script(const Ref<Script>& p_script,bool p_soft_reload);
+    void reload_tool_script(const Ref<Script>& p_script, bool p_soft_reload);
     /* LOADER FUNCTIONS */
 
     void get_recognized_extensions(List<String> *p_extensions) const;
@@ -72,8 +72,8 @@ public:
     void profiling_start();
     void profiling_stop();
 
-    int profiling_get_accumulated_data(ProfilingInfo *p_info_arr,int p_info_max);
-    int profiling_get_frame_data(ProfilingInfo *p_info_arr,int p_info_max);
+    int profiling_get_accumulated_data(ProfilingInfo *p_info_arr, int p_info_max);
+    int profiling_get_frame_data(ProfilingInfo *p_info_arr, int p_info_max);
 
 
     void frame();

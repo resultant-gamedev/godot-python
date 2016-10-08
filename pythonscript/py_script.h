@@ -8,9 +8,19 @@
 #include "py_script_language.h"
 
 
+/*
+ * For Godot, a script is a kind of class whose instance should be
+ * attached to a node.
+ *
+ * On the other hand a Python file is a module which cannot be instanciated.
+ * To solve this, the Python file should contain a decorated class which will
+ * be used as the Godot script.
+ */
+
+
 class PyScript : public Script {
 
-    OBJ_TYPE(PyScript,Script);
+    OBJ_TYPE(PyScript, Script);
 
     bool tool;
     bool valid;

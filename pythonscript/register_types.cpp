@@ -13,7 +13,7 @@ void register_pythonscript_types() {
     // ObjectTypeDB::register_virtual_type<PyFunctionState>();
 
     script_language_py = memnew(PyScriptLanguage);
-    //script_language_py->init();
+    script_language_py->init();
     ScriptServer::register_language(script_language_py);
     // resource_loader_py = memnew(ResourceFormatLoaderPyScript);
     // ResourceLoader::add_resource_format_loader(resource_loader_py);

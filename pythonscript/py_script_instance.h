@@ -1,7 +1,11 @@
 #ifndef PY_SCRIPT_INSTANCE_H
 #define PY_SCRIPT_INSTANCE_H
 
-class PyInstance : public ScriptInstance {
+
+#include "script_language.h"
+
+
+class PyScriptInstance : public ScriptInstance {
     Vector<Variant> members;
 #if 0
 friend class GDScript;
@@ -52,8 +56,8 @@ public:
     virtual RPCMode get_rset_mode(const StringName& p_variable) const;
 
 
-    PyInstance();
-    ~PyInstance();
+    PyScriptInstance();
+    ~PyScriptInstance();
 
 };
 

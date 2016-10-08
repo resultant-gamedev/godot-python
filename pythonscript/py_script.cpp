@@ -61,6 +61,7 @@ void PyScript::_update_placeholder(PlaceHolderScriptInstance *p_placeholder) {
 
 
 bool PyScript::can_instance() const {
+    // Only script containing a decorated class should be instanciated
     // TODO: think about it...
     //return valid; //any script in GDscript can instance
     return this->valid || (!this->tool && !ScriptServer::is_scripting_enabled());

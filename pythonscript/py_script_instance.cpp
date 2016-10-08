@@ -1,61 +1,13 @@
-#include "py_script_language.h"
 #include "py_script_instance.h"
+#include "py_script_language.h"
+#include "py_script.h"
 
 
-class ScriptInstance {
-public:
-
-
-    virtual bool set(const StringName& p_name, const Variant& p_value)=0;
-    virtual bool get(const StringName& p_name, Variant &r_ret) const=0;
-    virtual void get_property_list(List<PropertyInfo> *p_properties) const=0;
-    virtual Variant::Type get_property_type(const StringName& p_name,bool *r_is_valid=NULL) const=0;
-
-    virtual void get_property_state(List<Pair<StringName,Variant> > &state);
-
-    virtual void get_method_list(List<MethodInfo> *p_list) const=0;
-    virtual bool has_method(const StringName& p_method) const=0;
-    virtual Variant call(const StringName& p_method,VARIANT_ARG_LIST);
-    virtual Variant call(const StringName& p_method,const Variant** p_args,int p_argcount,Variant::CallError &r_error)=0;
-    virtual void call_multilevel(const StringName& p_method,VARIANT_ARG_LIST);
-    virtual void call_multilevel(const StringName& p_method,const Variant** p_args,int p_argcount);
-    virtual void call_multilevel_reversed(const StringName& p_method,const Variant** p_args,int p_argcount);
-    virtual void notification(int p_notification)=0;
-
-    //this is used by script languages that keep a reference counter of their own
-    //you can make make Ref<> not die when it reaches zero, so deleting the reference
-    //depends entirely from the script
-
-    virtual void refcount_incremented() {}
-    virtual bool refcount_decremented() { return true; } //return true if it can die
-
-    virtual Ref<Script> get_script() const=0;
-
-    virtual bool is_placeholder() const { return false; }
-
-    enum RPCMode {
-        RPC_MODE_DISABLED,
-        RPC_MODE_REMOTE,
-        RPC_MODE_SYNC,
-        RPC_MODE_MASTER,
-        RPC_MODE_SLAVE,
-    };
-
-    virtual RPCMode get_rpc_mode(const StringName& p_method) const=0;
-    virtual RPCMode get_rset_mode(const StringName& p_variable) const=0;
-
-    virtual ScriptLanguage *get_language()=0;
-    virtual ~ScriptInstance();
-};
-
-
-
-
-bool PyInstance::set(const StringName& p_name, const Variant& p_value) {
+bool PyScriptInstance::set(const StringName& p_name, const Variant& p_value) {
 
     //member
     {
-        const Map<StringName,PyScript::MemberInfo>::Element *E = script->member_indices.find(p_name);
+        const Map<StringName, PyScript::MemberInfo>::Element *E = script->member_indices.find(p_name);
         if (E) {
             if (E->get().setter) {
                 const Variant *val=&p_value;
@@ -93,7 +45,7 @@ bool PyInstance::set(const StringName& p_name, const Variant& p_value) {
 }
 
 
-bool PyInstance::get(const StringName& p_name, Variant &r_ret) const {
+bool PyScriptInstance::get(const StringName& p_name, Variant &r_ret) const {
 
     const PyScript *sptr=script.ptr();
     while(sptr) {
@@ -103,7 +55,7 @@ bool PyInstance::get(const StringName& p_name, Variant &r_ret) const {
             if (E) {
                 if (E->get().getter) {
                     Variant::CallError err;
-                    r_ret=const_cast<PyInstance*>(this)->call(E->get().getter,NULL,0,err);
+                    r_ret=const_cast<PyScriptInstance*>(this)->call(E->get().getter,NULL,0,err);
                     if (err.error==Variant::CallError::CALL_OK) {
                         return true;
                     }
@@ -136,7 +88,7 @@ bool PyInstance::get(const StringName& p_name, Variant &r_ret) const {
                 const Variant *args[1]={&name};
 
                 Variant::CallError err;
-                Variant ret = const_cast<GDFunction*>(E->get())->call(const_cast<PyInstance*>(this),(const Variant**)args,1,err);
+                Variant ret = const_cast<GDFunction*>(E->get())->call(const_cast<PyScriptInstance*>(this),(const Variant**)args,1,err);
                 if (err.error==Variant::CallError::CALL_OK && ret.get_type()!=Variant::NIL) {
                     r_ret=ret;
                     return true;
@@ -151,13 +103,99 @@ bool PyInstance::get(const StringName& p_name, Variant &r_ret) const {
 }
 
 
-Ref<Script> PyInstance::get_script() const {
+void PyScriptInstance::get_property_list(List<PropertyInfo> *p_properties) const {
+    // TODO
+}
+
+
+Variant::Type PyScriptInstance::get_property_type(const StringName& p_name,bool *r_is_valid=NULL) const=0 {
+    // TODO
+    return Variant::NIL;
+}
+
+
+void PyScriptInstance::get_method_list(List<MethodInfo> *p_list) const {
+    // TODO
+}
+
+
+bool PyScriptInstance::has_method(const StringName& p_method) const {
+    // TODO
+    return false
+}
+
+
+Variant PyScriptInstance::call(const StringName& p_method,VARIANT_ARG_LIST) {
+    // TODO
+    return Variant();
+}
+
+
+Variant PyScriptInstance::call(const StringName& p_method,const Variant** p_args,int p_argcount,Variant::CallError &r_error) {
+    // TODO
+}
+
+
+void PyScriptInstance::call_multilevel(const StringName& p_method,VARIANT_ARG_LIST) {
+    // TODO
+}
+
+
+void PyScriptInstance::call_multilevel(const StringName& p_method,const Variant** p_args,int p_argcount) {
+    // TODO
+}
+
+
+void PyScriptInstance::call_multilevel_reversed(const StringName& p_method,const Variant** p_args,int p_argcount) {
+    // TODO
+}
+
+
+void PyScriptInstance::notification(int p_notification) {
+    // TODO
+}
+
+
+//this is used by script languages that keep a reference counter of their own
+//you can make make Ref<> not die when it reaches zero, so deleting the reference
+//depends entirely from the script
+
+void PyScriptInstance::refcount_incremented() {
+    // TODO: use me ?
+}
+
+
+bool PyScriptInstance::refcount_decremented() {
+    // TODO: use me ?
+    // return true if it can die
+    return true;
+}
+
+
+Ref<Script> PyScriptInstance::get_script() const {
 
     return script;
 }
 
 
-ScriptLanguage *PyInstance::get_language() {
+RPCMode PyScriptInstance::get_rpc_mode(const StringName& p_method) const {
+    // TODO
+    return RPC_MODE_DISABLED;
+}
+
+
+RPCMode PyScriptInstance::get_rset_mode(const StringName& p_variable) const {
+    // TODO
+    return RPC_MODE_DISABLED;
+}
+
+
+ScriptLanguage *PyScriptInstance::get_language() {
 
     return PyScriptLanguage::get_singleton();
+}
+
+
+PyScriptInstance::~ScriptInstance() {
+    // TODO
 }
